@@ -22,7 +22,7 @@ def only_json():
 
 @bp.route('/list/favourites', methods=['GET', 'POST', 'DELETE'])
 @require_access_level(10, request)
-def create_favourite(public_id, request):
+def favourites(public_id, request):
 
     return _perform_action(request, public_id, 'favourites')
 
@@ -30,7 +30,7 @@ def create_favourite(public_id, request):
 
 @bp.route('/list/watchlist', methods=['GET', 'POST', 'DELETE'])
 @require_access_level(10, request)
-def create_favourite(public_id, request):
+def watchlist(public_id, request):
 
     return _perform_action(request, public_id, 'watchlist')
 
@@ -38,7 +38,7 @@ def create_favourite(public_id, request):
 
 @bp.route('/list/viewed', methods=['GET', 'POST'])
 @require_access_level(10, request)
-def create_favourite(public_id, request):
+def recently_viewed(public_id, request):
 
     return _perform_action(request, public_id, 'viewed')
 
