@@ -43,6 +43,22 @@ def recently_viewed(public_id, request):
     return _perform_action(request, public_id, 'viewed')
 
 #-----------------------------------------------------------------------------#
+
+@bp.route('/list/purchased', methods=['GET', 'POST'])
+@require_access_level(10, request)
+def purchase_history(public_id, request):
+
+    return _perform_action(request, public_id, 'purchased')
+
+#-----------------------------------------------------------------------------#
+
+#@bp.route('/list/bid_on', methods=['GET', 'POST'])
+#@require_access_level(10, request)
+#def recently_bid_on(public_id, request):
+#
+#    return _perform_action(request, public_id, 'purchased')
+
+#-----------------------------------------------------------------------------#
 # system routes
 #-----------------------------------------------------------------------------#
 
@@ -112,11 +128,10 @@ def _perform_action(request, public_id, list_type):
 
     if request.method == 'DELETE':
         if document:
-            favourites = document['favourites']
             list_of_uuids = document[list_type]
             if data['uuid'] in list_of_uuids:
                 list_of_uuids.remove(data['uuid'])
-                mongo.db.favourites.update({ '_id': public_id },
+                mongo.db[list_type].update({ '_id': public_id },
                                            { '$set': { list_type: list_of_uuids } },
                                              upsert=False)
         else:
