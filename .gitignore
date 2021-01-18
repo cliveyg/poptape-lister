@@ -15,6 +15,8 @@
 !app/
 !lister.py
 !manage.py
+!Dockerfile
+!docker-compose.yml
 !requirements.txt
 !migrations/
 !app/__init__.py
