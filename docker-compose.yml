@@ -1,4 +1,9 @@
-version: '3'
+version: '3.4'
+
+volumes:
+  poptape_lister:
+    name: poptape_lister
+
 services:
   api:
     env_file: app/.env
@@ -7,10 +12,10 @@ services:
       dockerfile: Dockerfile
     image: poptape/lister/api:v0.1
     ports:
-      - 1500:8400
+      - "1500:8400"
     restart: always
     depends_on:
-      - mongo_db
+      - mongodb
     volumes:
       - /var/log:${LOGFILE}
     logging:
@@ -20,12 +25,14 @@ services:
         max-file: "5"
     networks:
       - net_poptape 
-  mongo_db:
-    image: mongo:3.6
+  mongodb:
+    image: mongo
     restart: always
-    env_file: app/.env
     ports:
-      - 1501:27017
+      - "1501:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes: 
       - poptape_lister:/data/db
     networks:
@@ -34,6 +41,3 @@ services:
 networks:
   net_poptape:
     external: true
-
-volumes:
-  poptape_lister:
